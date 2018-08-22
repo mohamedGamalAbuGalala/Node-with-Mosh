@@ -85,6 +85,9 @@
 
 // start npm
 
+const _ = require('underscore');
 
+const res = _.contains([1, 2, 3], 2);
+console.log(res);
 
 // end npm
