@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const debug = require("debug")("app:startup");
 const express = require("express");
 const path = require("path");
@@ -7,10 +8,16 @@ const helmet = require("helmet");
 
 const errorHandler = require("./middleware/errorHandler");
 
+mongoose
+  .connect("mongodb://localhost/expressDemo")
+  .then(() => console.log("Connected to mongoDB..."))
+  .catch(() => console.log("could not Connect to mongoDB..."));
+
 // routers
 const indexRouter = require("./routes/index");
 const coursesRouter = require("./routes/courses");
 const genresRouter = require("./routes/genres");
+const customersRouter = require("./routes/customers");
 
 const app = express();
 
@@ -46,6 +53,7 @@ app.use(helmet());
 app.use("/", indexRouter);
 app.use("/api/courses", coursesRouter);
 app.use("/api/genres", genresRouter);
+app.use("/api/customers", customersRouter);
 // routes :: end
 
 // catch 404 and forward to error handler
