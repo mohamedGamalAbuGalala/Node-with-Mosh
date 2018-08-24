@@ -3,6 +3,7 @@
 # dependencies
 /first-app/node_modules
 /express-demo/node_modules
+/async-demo/node_modules
 
 # testing
 /coverage
