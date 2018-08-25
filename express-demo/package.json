@@ -10,10 +10,12 @@
     "cookie-parser": "~1.4.3",
     "debug": "^2.6.9",
     "express": "~4.16.0",
+    "fawn": "^2.1.5",
     "helmet": "^3.13.0",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
     "joi": "^13.6.0",
+    "joi-objectid": "^2.0.0",
     "mongoose": "^5.2.9",
     "morgan": "~1.9.0",
     "pug": "^2.0.3"

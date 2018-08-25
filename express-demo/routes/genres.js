@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Genre, validate } = require("../models/genre");
+const { getErrorMessages } = require("../utilities/ErrorHandlers/utility");
 
 /* GET genres listing. */
 router.get("/", async (req, res, next) => {
@@ -21,36 +22,18 @@ router.get("/:id", async (req, res, next) => {
 router.post("/", async (req, res) => {
   // validate
   const { error } = validate(req.body);
-  if (error)
-    return res.status(400).send(
-      error.details.reduce((ret, el) => {
-        ret.push({
-          message: el.message.replace(/\"/g, ``),
-          context: el.context.key
-        });
-        return ret;
-      }, [])
-    );
+  if (error) return res.status(400).send(getErrorMessages(error));
 
   // Adding
   let genre = new Genre({ name: req.body.name });
-  genre = await genre.save();
+  await genre.save();
   res.send(genre);
 });
 
 router.put("/:id", async (req, res) => {
   // validate
   const { error } = validate(req.body);
-  if (error)
-    return res.status(400).send(
-      error.details.reduce((ret, el) => {
-        ret.push({
-          message: el.message.replace(/\"/g, ``),
-          context: el.context.key
-        });
-        return ret;
-      }, [])
-    );
+  if (error) return res.status(400).send(getErrorMessages(error));
 
   // update routine
   const genre = await Genre.findByIdAndUpdate(

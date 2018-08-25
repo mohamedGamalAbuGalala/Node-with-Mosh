@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
-const {Customer,validate} = require('../models/customer');
+const { Customer, validate } = require("../models/customer");
+const { getErrorMessages } = require("../utilities/ErrorHandlers/utility");
 
 /* GET customers listing. */
 router.get("/", async (req, res, next) => {
@@ -21,16 +22,7 @@ router.get("/:id", async (req, res, next) => {
 router.post("/", async (req, res) => {
   // validate
   const { error } = validate(req.body);
-  if (error)
-    return res.status(400).send(
-      error.details.reduce((ret, el) => {
-        ret.push({
-          message: el.message.replace(/\"/g, ``),
-          context: el.context.key
-        });
-        return ret;
-      }, [])
-    );
+  if (error) return res.status(400).send(getErrorMessages(error));
 
   // Adding
   let customer = new Customer({
@@ -38,23 +30,14 @@ router.post("/", async (req, res) => {
     phone: req.body.phone,
     isGold: req.body.isGold
   });
-  customer = await customer.save();
+  await customer.save();
   res.send(customer);
 });
 
 router.put("/:id", async (req, res) => {
   // validate
   const { error } = validate(req.body);
-  if (error)
-    return res.status(400).send(
-      error.details.reduce((ret, el) => {
-        ret.push({
-          message: el.message.replace(/\"/g, ``),
-          context: el.context.key
-        });
-        return ret;
-      }, [])
-    );
+  if (error) return res.status(400).send(getErrorMessages(error));
 
   // update routine
   const customer = await Customer.findByIdAndUpdate(
@@ -82,4 +65,3 @@ router.delete("/:id", async (req, res) => {
 });
 
 module.exports = router;
-
