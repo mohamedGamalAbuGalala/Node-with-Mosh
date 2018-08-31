@@ -1,3 +1,4 @@
+const config = require("config");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
@@ -22,8 +23,15 @@ const genresRouter = require("./routes/genres");
 const customersRouter = require("./routes/customers");
 const moviesRouter = require("./routes/movies");
 const rentalsRouter = require("./routes/rentals");
+const usersRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
 
 const app = express();
+
+if (!config.get("jwtPrivateKey")) {
+  console.log("FATAL ERROR: jwtPrivateKey isn't defined.");
+  process.exit(1);
+}
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -60,6 +68,8 @@ app.use("/api/genres", genresRouter);
 app.use("/api/customers", customersRouter);
 app.use("/api/movies", moviesRouter);
 app.use("/api/rentals", rentalsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/auth", authRouter);
 // routes :: end
 
 // catch 404 and forward to error handler

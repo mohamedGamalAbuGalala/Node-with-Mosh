@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const { auth } = require("../middleware/auth");
 const { Movie } = require("../models/movie");
 const { Customer } = require("../models/customer");
 const { Rental, validate } = require("../models/rental");
@@ -26,7 +27,7 @@ router.get("/:id", async (req, res, next) => {
   res.send(rental);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   // validate
   const { error } = validate(req.body);
   if (error) return res.status(400).send(getErrorMessages(error));
@@ -80,7 +81,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   const rental = await Rental.findByIdAndRemove(req.params.id);
   // check existence
   if (!rental)

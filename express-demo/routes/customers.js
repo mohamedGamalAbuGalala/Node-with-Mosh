@@ -1,5 +1,7 @@
 var express = require("express");
 var router = express.Router();
+
+const { auth } = require("../middleware/auth");
 const { Customer, validate } = require("../models/customer");
 const { getErrorMessages } = require("../utilities/ErrorHandlers/utility");
 
@@ -19,7 +21,7 @@ router.get("/:id", async (req, res, next) => {
   res.send(customer);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   // validate
   const { error } = validate(req.body);
   if (error) return res.status(400).send(getErrorMessages(error));
@@ -34,7 +36,7 @@ router.post("/", async (req, res) => {
   res.send(customer);
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
   // validate
   const { error } = validate(req.body);
   if (error) return res.status(400).send(getErrorMessages(error));
@@ -55,7 +57,7 @@ router.put("/:id", async (req, res) => {
   res.send(customer);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   const customer = await Customer.findByIdAndRemove(req.params.id);
   // check existence
   if (!customer)
