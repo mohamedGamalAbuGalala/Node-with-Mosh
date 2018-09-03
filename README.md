@@ -1,4 +1,7 @@
 # Node-with-Mosh
+trining projects on this course:
+https://www.udemy.com/nodejs-master-class/
+
 after cloning repo run npm install
 
 mostly express demo is our course project all other is just training
