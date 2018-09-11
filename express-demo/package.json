@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "test": "jest --watchAll"
+    "start": "nodemon ./app",
+    "test": "jest --watchAll --verbose"
   },
   "dependencies": {
     "bcrypt": "^3.0.0",
@@ -30,6 +30,7 @@
     "winston-mongodb": "^3.0.0"
   },
   "devDependencies": {
-    "jest": "^23.5.0"
+    "jest": "^23.5.0",
+    "supertest": "^3.3.0"
   }
 }

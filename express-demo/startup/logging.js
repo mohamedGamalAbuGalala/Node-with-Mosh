@@ -1,17 +1,17 @@
 const winston = require("winston");
-require("winston-mongodb");
+// require("winston-mongodb");
 
 // moves control of errors from route handler
 // to error handler without using asyncMiddleware
 require("express-async-errors");
 
-module.exports = () => {
+module.exports = function() {
   // winston start
   winston.add(winston.transports.File, { filename: "logfile.log" });
-  winston.add(winston.transports.MongoDB, {
-    db: "mongodb://localhost/expressDemo",
-    level: "info"
-  });
+  // winston.add(winston.transports.MongoDB, {
+  //   db: "mongodb://localhost/expressDemo",
+  //   level: "info"
+  // });
 
   // process.on("uncaughtException", ex => {
   //   winston.error(ex.message, ex);
